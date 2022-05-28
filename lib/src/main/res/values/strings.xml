@@ -1,0 +1,13 @@
+<resources>
+    <string name="settings">Settings</string>
+    <string name="not_now">Not Now</string>
+    <string name="cancel">Cancel</string>
+    <string name="select">Select</string>
+    <string name="whatsapp_not_installed">Whatsapp not installed</string>
+    <string name="telegram_not_installed">Telegram not installed</string>
+    <string name="email_not_installed">Email not installed</string>
+    <string-array name="whatsapp_options">
+        <item>Whatsapp</item>
+        <item>Whatsapp Business</item>
+    </string-array>
+</resources>
