@@ -6,7 +6,7 @@ import cat.ereza.customactivityoncrash.config.CaocConfig
 
 object ApplicationSetUp {
 
-    private fun initCustomCrash() {
+    fun initCustomCrash() {
         //log("initCustomCrash")
         CaocConfig.Builder.create()
             .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT)
