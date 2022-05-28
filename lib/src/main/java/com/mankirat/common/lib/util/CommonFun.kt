@@ -8,18 +8,13 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.util.TypedValue
 import android.view.MenuItem
 import android.webkit.MimeTypeMap
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.children
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import com.mankirat.common.lib.R
 import com.mankirat.common.lib.base.Base
 import java.io.File
@@ -29,7 +24,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-object CommonFun : Base("CommonFun") {
+open class CommonFun : Base("CommonFun") {
 
     fun getVersionName(context: Context): String {
         val version = "V " +
@@ -244,38 +239,4 @@ object CommonFun : Base("CommonFun") {
         return type ?: "image/*" // fallback type. You might set it to */*
     }
 
-}
-
-fun Toolbar.setMoreIcon(drawableId: Int? = null, colorId: Int?) {
-    val context = this.context
-    val drawable = if (drawableId == null) overflowIcon else ContextCompat.getDrawable(context, drawableId)
-    val color = if (colorId == null) null else ContextCompat.getColor(context, colorId)
-
-    CommonFun.setToolbarMoreIcon(this, drawable, color)
-}
-
-fun Toolbar.setMenuIconTint(colorId: Int) {
-    val context = this.context
-    val color = ContextCompat.getColor(context, colorId)
-
-    this.menu.children.forEach { itemView ->
-        CommonFun.setToolbarMenuTint(itemView, color)
-    }
-}
-
-fun NavHostFragment.getCurrentFragment(): Fragment? {
-    val fragments = this.childFragmentManager.fragments
-    return if (fragments.isNotEmpty()) {
-        fragments[0]
-    } else {
-        null
-    }
-}
-
-fun Float.dpToPx(context: Context): Int {
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, context.resources.displayMetrics).toInt()
-}
-
-fun Float.spToPx(context: Context): Int {
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, this, context.resources.displayMetrics).toInt()
 }
