@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.mankirat.common.lib.util
 
 import android.content.Context
@@ -8,12 +10,14 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 
+object Extensions : CommonFun()
+
 fun Toolbar.setMoreIcon(drawableId: Int? = null, colorId: Int?) {
     val context = this.context
     val drawable = if (drawableId == null) overflowIcon else ContextCompat.getDrawable(context, drawableId)
     val color = if (colorId == null) null else ContextCompat.getColor(context, colorId)
 
-    CommonFun().setToolbarMoreIcon(this, drawable, color)
+    Extensions.setToolbarMoreIcon(this, drawable, color)
 }
 
 fun Toolbar.setMenuIconTint(colorId: Int) {
@@ -21,7 +25,7 @@ fun Toolbar.setMenuIconTint(colorId: Int) {
     val color = ContextCompat.getColor(context, colorId)
 
     this.menu.children.forEach { itemView ->
-        CommonFun().setToolbarMenuTint(itemView, color)
+        Extensions.setToolbarMenuTint(itemView, color)
     }
 }
 

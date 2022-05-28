@@ -87,6 +87,14 @@ open class CommonFun : Base("CommonFun") {
         context.startActivity(intent)
     }
 
+    fun shareText(context: Context, text: String, applicationId: String? = null) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/*"
+        if (applicationId != null) intent.setPackage(applicationId)
+        intent.putExtra(Intent.EXTRA_TEXT, text)
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.share_using)))
+    }
+
     fun openWhatsapp(context: Context, number: String? = null, message: String? = null) {
         val packageManager = context.packageManager
         val isWhatsAppInstalled = try {
@@ -146,7 +154,7 @@ open class CommonFun : Base("CommonFun") {
 
     }
 
-    fun openTelegram(context: Context, userName: String? = null, message: String? = null) {
+    fun openTelegram(context: Context, userName: String? = null, message: String? = null): Boolean {
         val intent: Intent
         if (userName != null) {
             intent = Intent(Intent.ACTION_VIEW)
@@ -156,14 +164,16 @@ open class CommonFun : Base("CommonFun") {
             intent.type = "text/plain"
             intent.putExtra(Intent.EXTRA_TEXT, message)
         } else {
-            return
+            return false
         }
 
-        try {
+        return try {
             intent.setPackage("org.telegram.messenger")
             context.startActivity(intent)
+            true
         } catch (e: ActivityNotFoundException) {
             toastShort(context, context.getString(R.string.telegram_not_installed))
+            false
         }
     }
 
@@ -174,16 +184,18 @@ open class CommonFun : Base("CommonFun") {
         context.startActivity(intent)
     }
 
-    fun openEmail(context: Context, mail: Array<String>? = null, subject: String? = null, message: String? = null) {
-        try {
+    fun openEmail(context: Context, mail: Array<String>? = null, subject: String? = null, message: String? = null): Boolean {
+        return try {
             val intent = Intent(Intent.ACTION_SENDTO)
             intent.data = Uri.parse("mailto:")
             if (mail != null) intent.putExtra(Intent.EXTRA_EMAIL, mail)
             if (subject != null) intent.putExtra(Intent.EXTRA_SUBJECT, subject)
             if (message != null) intent.putExtra(Intent.EXTRA_TEXT, message)
             context.startActivity(intent)
+            true
         } catch (e: ActivityNotFoundException) {
             toastShort(context, context.getString(R.string.email_not_installed))
+            false
         }
     }
 

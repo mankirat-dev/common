@@ -3,6 +3,7 @@
     <string name="not_now">Not Now</string>
     <string name="cancel">Cancel</string>
     <string name="select">Select</string>
+    <string name="share_using">Share Using</string>
     <string name="whatsapp_not_installed">Whatsapp not installed</string>
     <string name="telegram_not_installed">Telegram not installed</string>
     <string name="email_not_installed">Email not installed</string>

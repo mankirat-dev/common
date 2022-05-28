@@ -45,4 +45,7 @@ dependencies {
     //nav-graph
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
     //implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
+
+    //custom crash interface
+    implementation 'cat.ereza:customactivityoncrash:2.3.0'
 }
