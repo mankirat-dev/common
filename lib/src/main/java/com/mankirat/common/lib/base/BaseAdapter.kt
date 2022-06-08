@@ -1,4 +1,4 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
 package com.mankirat.common.lib.base
 
@@ -8,28 +8,26 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseAdapter<model : Any, viewBinding : ViewBinding>(private val singleSelection: Boolean = false) :
-    ListAdapter<model, BaseAdapter<model, viewBinding>.BaseViewHolder>(BaseDiffCallback<model>()) {
+abstract class BaseAdapter<model : Any, viewBinding : ViewBinding>(baseDiffUtil: BaseDiffCallback<model>, val singleSelection: Boolean = false) : ListAdapter<model, BaseAdapter<model, viewBinding>.BaseViewHolder>(baseDiffUtil) {
 
     abstract fun setBindViewHolder(binding: viewBinding, model: model, position: Int, context: Context)
 
     open fun setViewHolder(binding: viewBinding, viewHolder: BaseViewHolder) {}
 
-    abstract fun areContentsTheSame(oldItem: model, newItem: model): Boolean
+    abstract fun areContentSame(oldItem: Any, newItem: Any): Boolean
 
-    //val diffCallback = BaseDiffCallback(field, value)
+    var clickListener: ((model: model, position: Int) -> Unit)? = null
+    var selectedPos: Int = 0
+        set(value) {
+            val oldPos = field
+            field = value
+            notifyItemChanged(oldPos)
+            notifyItemChanged(value)
+        }
 
-//    var data = listOf<model>()
-//        set(value) {
-//            val diffResult = DiffUtil.calculateDiff(diffCallback)
-//            field = value
-//            //notifyDataSetChanged()
-//            diffResult.dispatchUpdatesTo(this)
-//        }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val model = getItem(position)
-        //val model = data[position]
         val binding = holder.binding
 
         binding.root.setOnClickListener {
@@ -40,25 +38,11 @@ abstract class BaseAdapter<model : Any, viewBinding : ViewBinding>(private val s
         setBindViewHolder(binding, model, position, binding.root.context)
     }
 
-
     inner class BaseViewHolder(val binding: viewBinding) : RecyclerView.ViewHolder(binding.root) {
-
         init {
             setViewHolder(binding, this)
         }
-
     }
-
-    var clickListener: ((model: model, position: Int) -> Unit)? = null
-
-    var selectedPos: Int = 0
-        set(value) {
-            val oldPos = field
-            field = value
-            notifyItemChanged(oldPos)
-            notifyItemChanged(value)
-        }
-
 
     /*abstract class BaseDiffCallback<model>(private val oldList: List<model>, private val newList: List<model>) : DiffUtil.Callback() {
 
@@ -80,15 +64,12 @@ abstract class BaseAdapter<model : Any, viewBinding : ViewBinding>(private val s
         }
     }*/
 
-    class BaseDiffCallback<model : Any> : DiffUtil.ItemCallback<model>() {
+}
 
-        override fun areItemsTheSame(oldItem: model, newItem: model): Boolean {
-            return oldItem == newItem
-        }
+abstract class BaseDiffCallback<model : Any> : DiffUtil.ItemCallback<model>() {
 
-        override fun areContentsTheSame(oldItem: model, newItem: model): Boolean {
-            return areContentsTheSame(oldItem, newItem)
-        }
+    override fun areItemsTheSame(oldItem: model, newItem: model): Boolean {
+        return oldItem == newItem
     }
 
 }
