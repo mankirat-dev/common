@@ -1,5 +1,3 @@
-@file:Suppress("unused", "MemberVisibilityCanBePrivate")
-
 package com.mankirat.common.lib.base
 
 import android.content.Context
@@ -8,13 +6,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseAdapter<model : Any, viewBinding : ViewBinding>(baseDiffUtil: BaseDiffCallback<model>, val singleSelection: Boolean = false) : ListAdapter<model, BaseAdapter<model, viewBinding>.BaseViewHolder>(baseDiffUtil) {
+abstract class BaseAdapter<model : Any, viewBinding : ViewBinding>(baseDiffUtil: DiffUtil.ItemCallback<model>, private val singleSelection: Boolean = false) :
+    ListAdapter<model, BaseAdapter<model, viewBinding>.BaseViewHolder>(baseDiffUtil) {
 
     abstract fun setBindViewHolder(binding: viewBinding, model: model, position: Int, context: Context)
 
     open fun setViewHolder(binding: viewBinding, viewHolder: BaseViewHolder) {}
-
-    abstract fun areContentSame(oldItem: Any, newItem: Any): Boolean
 
     var clickListener: ((model: model, position: Int) -> Unit)? = null
     var selectedPos: Int = 0
@@ -63,13 +60,5 @@ abstract class BaseAdapter<model : Any, viewBinding : ViewBinding>(baseDiffUtil:
             return super.getChangePayload(oldPosition, newPosition)
         }
     }*/
-
-}
-
-abstract class BaseDiffCallback<model : Any> : DiffUtil.ItemCallback<model>() {
-
-    override fun areItemsTheSame(oldItem: model, newItem: model): Boolean {
-        return oldItem == newItem
-    }
 
 }
