@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.mankirat.common.lib.util
 
 import cat.ereza.customactivityoncrash.config.CaocConfig

@@ -1,5 +1,3 @@
-@file:Suppress("unused", "MemberVisibilityCanBePrivate")
-
 package com.mankirat.common.lib.base
 
 import android.os.Bundle
@@ -59,7 +57,7 @@ abstract class BaseFragment<viewBinding : ViewBinding>(val className: String) : 
 
     private var permission: Permission? = null
     private fun getPermission(): Permission? {
-        if (permission == null) permission = Permission(requireContext(), permissionLauncher, permissionSettingLauncher)
+        if (permission == null) permission = Permission(requireActivity(), permissionLauncher, permissionSettingLauncher)
         return permission
     }
 

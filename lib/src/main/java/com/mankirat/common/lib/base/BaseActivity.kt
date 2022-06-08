@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.mankirat.common.lib.base
 
 import android.graphics.PixelFormat
