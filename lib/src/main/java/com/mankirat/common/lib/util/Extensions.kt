@@ -18,6 +18,12 @@ fun Toolbar.setMoreIcon(drawableId: Int? = null, colorId: Int?) {
     Extensions.setToolbarMoreIcon(this, drawable, color)
 }
 
+fun Toolbar.setMoreIconTint(colorId: Int) {
+    val color = ContextCompat.getColor(this.context, colorId)
+
+    Extensions.setToolbarMoreIcon(this, overflowIcon, color)
+}
+
 fun Toolbar.setMenuIconTint(colorId: Int) {
     val context = this.context
     val color = ContextCompat.getColor(context, colorId)

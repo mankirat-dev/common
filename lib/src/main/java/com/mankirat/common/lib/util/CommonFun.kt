@@ -1,6 +1,8 @@
 package com.mankirat.common.lib.util
 
 import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,6 +10,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.MenuItem
 import android.webkit.MimeTypeMap
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.BlendModeColorFilterCompat
@@ -17,6 +20,7 @@ import com.mankirat.common.lib.R
 import com.mankirat.common.lib.base.Base
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStream
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
@@ -71,11 +75,32 @@ open class CommonFun : Base("CommonFun") {
                     outputStream.write(buffer, 0, length)
                 }
                 outputStream.flush()
+                outputStream.close()
+                inputStream.close()
                 callback?.invoke(true)
             }
         }
     }
 
+    fun copyFile(inputStream: InputStream?, outputFile: File?, callback: ((success: Boolean) -> Unit)? = null) {
+        log("copyFile: inputStream = $inputStream : outputFile = $outputFile")
+        if (inputStream == null || outputFile == null) {
+            callback?.invoke(false)
+            return
+        }
+
+        FileOutputStream(outputFile, false).use { outputStream ->
+            val buffer = ByteArray(1024)
+            var length: Int
+            while (inputStream.read(buffer).also { length = it } > 0) {
+                outputStream.write(buffer, 0, length)
+            }
+            outputStream.flush()
+            outputStream.close()
+            inputStream.close()
+            callback?.invoke(true)
+        }
+    }
 
     /*___________________________ Share Intent ___________________________*/
 
@@ -238,6 +263,7 @@ open class CommonFun : Base("CommonFun") {
             BlendModeCompat.SRC_IN
         )
     }
+
 
     fun getMimeType(file: File): String {
         val url = file.toString()
